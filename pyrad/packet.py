@@ -114,7 +114,10 @@ class Packet(dict):
         if attr.values.HasBackward(value):
             return attr.values.GetBackward(value)
         else:
-            return tools.DecodeAttr(attr.type, value)
+            if attr.encrypt:
+                return tools.DecodeAttr('octets', value)
+            else:
+                return tools.DecodeAttr(attr.type, value)
 
     def _EncodeValue(self, attr, value):
         if attr.values.HasForward(value):
